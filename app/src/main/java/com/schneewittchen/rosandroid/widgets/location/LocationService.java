@@ -11,10 +11,12 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.Manifest;
 
+import android.os.Build;
 import java.util.ArrayList;
 
 public class LocationService extends Service {
@@ -23,6 +25,7 @@ public class LocationService extends Service {
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 0;
     private static final float LOCATION_DISTANCE = 0;
+    public static final String CHANNEL_ID = "ForegroundServiceChannel";
 
     private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -60,6 +63,18 @@ public class LocationService extends Service {
             new LocationListener(LocationManager.NETWORK_PROVIDER)
     };
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Foreground Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
+
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
@@ -69,6 +84,14 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand");
         super.onStartCommand(intent, flags, startId);
+
+        createNotificationChannel();
+
+        Notification notification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setContentTitle("Foreground Service")
+                .build();
+        startForeground(1, notification);
+
         return START_STICKY;
     }
 

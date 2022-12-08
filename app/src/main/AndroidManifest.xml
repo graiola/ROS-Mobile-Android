@@ -38,6 +38,7 @@
             </intent-filter>
         </service>
 
+        <service android:name=".widgets.location.LocationService"/>
 
 </application>
 

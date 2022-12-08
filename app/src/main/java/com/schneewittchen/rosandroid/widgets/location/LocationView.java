@@ -92,7 +92,6 @@ public class LocationView extends PublisherWidgetView {
         LocalBroadcastManager.getInstance(context).registerReceiver(locationReceiver, filter);
 
         context.startService(new Intent(context, LocationService.class));
-
     }
 
     private void changeState(boolean pressed) {

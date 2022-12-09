@@ -1,5 +1,6 @@
 package com.schneewittchen.rosandroid.widgets.location;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.schneewittchen.rosandroid.ui.views.widgets.PublisherWidgetView;
 
 import android.location.Location;
 import android.util.Log;
+import android.view.WindowManager;
 
 
 /**
@@ -75,6 +77,8 @@ public class LocationView extends PublisherWidgetView {
     }
 
     private void init() {
+
+        ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         buttonPaint = new Paint();
         buttonPaint.setColor(getResources().getColor(R.color.colorPrimary));

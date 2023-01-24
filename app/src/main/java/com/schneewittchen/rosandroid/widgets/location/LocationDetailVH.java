@@ -25,12 +25,14 @@ import sensor_msgs.NavSatFix;
 public class LocationDetailVH extends PublisherWidgetViewHolder {
 
     private EditText textText;
+    private EditText intervalText;
     private Spinner rotationSpinner;
     private ArrayAdapter<CharSequence> rotationAdapter;
 
     @Override
     public void initView(View view) {
         textText = view.findViewById(R.id.btnTextTypeText);
+        intervalText = view.findViewById(R.id.intervalText);
         rotationSpinner = view.findViewById(R.id.btnTextRotation);
 
         // Init spinner
@@ -45,6 +47,8 @@ public class LocationDetailVH extends PublisherWidgetViewHolder {
         LocationEntity locationEntity = (LocationEntity) entity;
 
         textText.setText(locationEntity.text);
+        intervalText.setText("interval");
+
         String degrees = Utils.numberToDegrees(locationEntity.rotation);
         rotationSpinner.setSelection(rotationAdapter.getPosition(degrees));
     }
@@ -54,6 +58,7 @@ public class LocationDetailVH extends PublisherWidgetViewHolder {
         LocationEntity locationEntity = (LocationEntity) entity;
 
         locationEntity.text = textText.getText().toString();
+        //locationEntity.interval = (long)intervalText.getText();
         String degrees = rotationSpinner.getSelectedItem().toString();
         locationEntity.rotation = Utils.degreesToNumber(degrees);
     }

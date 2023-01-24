@@ -86,12 +86,9 @@ public class LocationView extends PublisherWidgetView {
 
         locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        //long interval = (long)(1.0/entity.publishRate)*1000;
-        //Log.i(TAG,"INTERVAL - --------------------" + interval);
-        long interval = 500;
-        locationRequest.setInterval(interval);
-        locationRequest.setFastestInterval(interval);
-        locationRequest.setSmallestDisplacement(0);
+        locationRequest.setInterval(entity.interval);
+        locationRequest.setFastestInterval(entity.fastestInterval);
+        locationRequest.setSmallestDisplacement(entity.smallestDisplacement);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED  ) {
